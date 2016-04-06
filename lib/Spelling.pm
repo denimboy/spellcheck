@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+use warnings;
 
 package Spelling;
 
@@ -8,11 +9,7 @@ package Spelling;
 
 NAME B<Spelling> -
 
-Probabalistic spell checker based on Peter Norvigs code on http://norvig.com/spell-correct.html
-
-Build new words file:
-
-$ mysql -u guba -p -h user-db guba -BNe "SELECT caption, title, description, (SELECT concat(tag) FROM opus_tags WHERE opus_id = id group by id) AS tags FROM opus WHERE mpaa_rating = 'X' AND premium AND active AND reviewed AND NOT suspended" > words.txt
+Spell checker based on Peter Norvigs code on http://norvig.com/spell-correct.html
 
 =cut
 
