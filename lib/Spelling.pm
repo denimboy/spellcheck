@@ -55,8 +55,8 @@ sub uniq
 
 sub known
 {
-    my ($self) = @_;
-    return grep { $self->{'NWORDS'}->{$_} } @_;
+    my ($self, $words) = @_;
+    return grep { $self->{'NWORDS'}->{$_} } @$words;
 }
 
 sub edits1
@@ -81,7 +81,7 @@ sub correct
 {
     my ($self, $word) = @_;
     my @canidates;
-    @canidates = known($word) or @canidates = known(edits1($word)) or @canidates = known(edits2($word)) or @canidates = qw($word);
+    @canidates = $self->known([$word]) or @canidates = $self->known(edits1($word)) or @canidates = $self->known(edits2($word)) or @canidates = qw($word);
     @canidates = sort { $self->{'NWORDS'}->{$b} <=> $self->{'NWORDS'}->{$a} } @canidates;
     return $canidates[0];
 }
