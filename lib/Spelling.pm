@@ -13,23 +13,33 @@ Spell checker based on Peter Norvigs code on http://norvig.com/spell-correct.htm
 
 =cut
 
-our $NWORDS;
-our @DICT;
 our @alphabet = split //, 'abcdefghijklmnopqrstuvwxyz';
+
+sub new
+{
+    my ($class) = @_;
+    my $self = {};
+    $self->{'NWORDS'} = {};
+    bless $self, $class;
+}
+
+sub nwords
+{
+    my ($self) = @_;
+    return $self->{'NWORDS'};
+}
 
 sub train
 {
-    my $filename = shift;
+    my ($self, $filename) = @_;
     open IN, $filename or die "Cannot open $filename: $!";
     while(<IN>) {
         chomp;
         foreach my $word (words($_)) {
-            $NWORDS->{$word}++;
+            $self->{'NWORDS'}->{$word}++;
         }
     }
     close IN;
-    @DICT = keys %$NWORDS;
-    print "Learned ", scalar @DICT, " words\n";
 }
 
 sub words
@@ -45,7 +55,8 @@ sub uniq
 
 sub known
 {
-    return grep { $NWORDS->{$_} } @_;
+    my ($self) = @_;
+    return grep { $self->{'NWORDS'}->{$_} } @_;
 }
 
 sub edits1
@@ -66,24 +77,12 @@ sub edits2
     return uniq map { edits1($_) } edits1($word);
 }
 
-sub dict
-{
-    return \@DICT;
-}
-
-sub mistakes
-{
-    shift;
-    return grep { ! known($_) } words shift;
-}
-
 sub correct
 {
-    shift;
-    my $word = shift;
+    my ($self, $word) = @_;
     my @canidates;
     @canidates = known($word) or @canidates = known(edits1($word)) or @canidates = known(edits2($word)) or @canidates = qw($word);
-    @canidates = sort { $NWORDS->{$b} <=> $NWORDS->{$a} } @canidates;
+    @canidates = sort { $self->{'NWORDS'}->{$b} <=> $self->{'NWORDS'}->{$a} } @canidates;
     return $canidates[0];
 }
 
