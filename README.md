@@ -6,6 +6,7 @@ See:
 
  * http://norvig.com/spell-correct.html
  * http://norvig.com/ngrams/ch14.pdf
+ * https://github.com/wolfgarbe/symspell
 
 ## Files
 

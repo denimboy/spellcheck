@@ -5,14 +5,8 @@ use warnings;
 
 use Test::More;
 
-#my $pkg = 'Spelling';
-#use_ok($pkg);
-ok(1, 'make this pass for now');
-
-
-done_testing;
-
-__END__
+my $pkg = 'Spelling';
+use_ok($pkg);
 
 
 sub spelltest
@@ -21,7 +15,7 @@ sub spelltest
     my ($n, $bad, $unknown, $start) = (0, 0, 0 , time);
     my @targets = keys %$tests;
     if ($bias) {
-        foreach (@targets) { $NWORDS->{$_} += $bias; };
+        #foreach (@targets) { $NWORDS->{$_} += $bias; };
     }
     foreach my $target (@targets) {
         print "target: $target\n";
@@ -31,13 +25,14 @@ sub spelltest
             if ($w ne $target) {
                 $bad++;
                 $unknown++ if ! scalar grep { $target eq $_ } keys %$tests;
-                print "correct($wrong) => $w ($NWORDS->{$w}); expected $target ($NWORDS->{$target})\n" if ($verbose);
+                #print "correct($wrong) => $w ($NWORDS->{$w}); expected $target ($NWORDS->{$target})\n" if ($verbose);
             }
         }
     }
     return {'bad' => $bad, 'n'=> $n, 'bias' => $bias, 'pct' => int(100.0 - 100.0*$bad/$n),
             'unknown' => $unknown, 'secs' => time - $start };
 }
+
 
 my $tests1 = { 'access'=> 'acess', 'accessing'=> 'accesing', 'accommodation'=>
                    'accomodation acommodation acomodation', 'account'=> 'acount', 'address'=>
@@ -231,8 +226,14 @@ my $tests2 = {'forbidden'=> 'forbiden', 'decisions'=> 'deciscions descisions',
                   'together'=> 'togehter', 'profits'=> 'proffits'};
 
 
+
 # This happens when you "use" the module.
-train(CORPUS);
+#train(CORPUS);
 
 use Data::Dumper;
-print Dumper(spelltest($tests1, 0 ,1));
+#print Dumper(spelltest($tests1, 0 ,1));
+
+
+done_testing;
+
+__END__
