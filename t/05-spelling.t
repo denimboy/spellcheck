@@ -49,7 +49,7 @@ sub spelltest
         print "target: $target\n";
         foreach my $wrong (split /\s+/, $tests->{$target}) {
             $n++;
-            my $w = Spelling->correct($wrong);
+            my $w = $spell->correct($wrong);
             if ($w ne $target) {
                 $bad++;
                 $unknown++ if ! scalar grep { $target eq $_ } keys %$tests;
@@ -258,7 +258,7 @@ my $tests2 = {
 
 
 use Data::Dumper;
-#print Dumper(spelltest($tests1, 0 ,1));
+print Dumper(spelltest($tests1, 0 ,1));
 
 
 done_testing;

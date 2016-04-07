@@ -50,7 +50,7 @@ sub words
 sub uniq
 {
     my %cnt;
-    return grep { ! $cnt{$_}++ } @_;
+    return [ grep { ! $cnt{$_}++ } @_ ];
 }
 
 sub known
